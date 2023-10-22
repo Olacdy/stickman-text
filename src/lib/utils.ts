@@ -9,18 +9,28 @@ export function centerAndWrapTextWithBars(
   input: string,
   totalLength: number = 24
 ) {
-  const paddingLength =
-    input.length < totalLength ? totalLength - input.length : 0;
-  const leftPadding = ' '.repeat(Math.floor(paddingLength / 2));
-  const rightPadding = ' '.repeat(Math.ceil(paddingLength / 2));
+  const processLine = (line: string) => {
+    const paddingLength =
+      line.length < totalLength ? totalLength - line.length : 0;
+    const leftPadding = ' '.repeat(Math.floor(paddingLength / 2));
+    const rightPadding = ' '.repeat(Math.ceil(paddingLength / 2));
 
-  let centeredText = `|${leftPadding}${input}${rightPadding}|`;
+    let centeredLine = `|${leftPadding}${line}${rightPadding}|`;
 
-  if (input.length > totalLength) {
-    centeredText =
-      `|${input.substring(0, totalLength)}|\n` +
-      centerAndWrapTextWithBars(input.substring(totalLength), totalLength);
-  }
+    if (line.length > totalLength) {
+      centeredLine =
+        `|${line.substring(0, totalLength)}|\n` +
+        processLine(line.substring(totalLength));
+    }
+
+    return centeredLine;
+  };
+
+  const lines = input.split('\n');
+
+  const centeredLines = lines.map((line) => processLine(line));
+
+  const centeredText = centeredLines.join('\n');
 
   return centeredText;
 }
