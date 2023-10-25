@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useState } from 'react';
 
 import { Textarea } from '@/components/ui/textarea';
 
-import { calculateTextWidth, wrapTextInStickman } from '@/lib/utils';
+import { wrapTextInStickman } from '@/lib/utils';
 import { toast } from 'sonner';
 
 type StickmanTextProps = {};
@@ -12,7 +12,6 @@ const StickmanText: FC<StickmanTextProps> = ({}) => {
 
   const handleTextChange = async (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
-    console.log(calculateTextWidth(e.target.value));
   };
 
   const handleTextClick = () => {
@@ -24,9 +23,9 @@ const StickmanText: FC<StickmanTextProps> = ({}) => {
   return (
     <section className='flex w-full max-w-sm flex-col items-center gap-5 px-5'>
       <pre
+        id='stickman'
         onClick={handleTextClick}
-        // cursor-pointer select-none
-        className='whitespace-pre font-twitter-chirp'>
+        className='cursor-pointer select-none whitespace-pre font-twitter-chirp'>
         {wrapTextInStickman(text)}
       </pre>
       <Textarea

@@ -5,10 +5,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function getElementFontSize(id: string) {
+  const element = document.getElementById(id);
+
+  if (!element) return 16;
+
+  return parseInt(window.getComputedStyle(element).fontSize.replace('px', ''));
+}
+
 export function calculateTextWidth(
   text: string,
-  font: string = 'Twitter Chirp'
+  id: string = 'stickman'
 ): number {
+  const fontSize = getElementFontSize(id);
+
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
 
@@ -16,33 +26,47 @@ export function calculateTextWidth(
     return -1;
   }
 
-  context.font = font;
+  context.font = `${fontSize}px Twitter Chirp`;
 
   const width = context.measureText(text).width;
 
   return width;
 }
 
+export function calculateRedundantLength(line: string, maxWidth: number = 210) {
+  let redundantLength = 0;
+  let newLine = `${line}`;
+
+  while (calculateTextWidth(newLine) > maxWidth) {
+    redundantLength++;
+    newLine = newLine.slice(0, newLine.length - 1);
+  }
+
+  return redundantLength;
+}
+
 export function centerAndWrapTextWithBars(
   input: string,
-  maxWidth: number = 160
+  maxWidth: number = 210
 ) {
-  const processLine = (line: string, lineWidth: number) => {
+  const processLine = (line: string) => {
+    const lineWidth = calculateTextWidth(line);
+
     const paddingLength =
-      (lineWidth < maxWidth ? maxWidth - lineWidth : 0) / 2.8;
+      (lineWidth < maxWidth ? maxWidth - lineWidth : 0) / 3.6;
     const leftPadding = ' '.repeat(Math.floor(paddingLength / 2));
-    const rightPadding = ' '.repeat(Math.ceil(paddingLength / 2));
+    const rightPadding = ' '.repeat(Math.floor(paddingLength / 2));
 
     let centeredLine = `|${leftPadding}${line}${rightPadding}|`;
 
     if (lineWidth > maxWidth) {
-      const newLine = line.substring(line.length - 1);
+      const redundantLength = calculateRedundantLength(line, maxWidth);
 
-      console.log(newLine);
+      const newLine = line.substring(line.length - redundantLength);
 
       centeredLine =
-        `|${line.substring(0, line.length - 1)}|\n` +
-        processLine(newLine, calculateTextWidth(newLine));
+        `|${line.substring(0, line.length - redundantLength)}|\n` +
+        processLine(newLine);
     }
 
     return centeredLine;
@@ -50,9 +74,7 @@ export function centerAndWrapTextWithBars(
 
   const lines = input.split('\n');
 
-  const centeredLines = lines.map((line) =>
-    processLine(line, calculateTextWidth(line))
-  );
+  const centeredLines = lines.map((line) => processLine(line));
 
   const centeredText = centeredLines.join('\n');
 
@@ -63,11 +85,11 @@ export function wrapTextInStickman(text: string) {
   const textWithStickman = `|￣￣￣￣￣￣￣￣￣￣￣￣￣|
 ${centerAndWrapTextWithBars(text)}
 |＿＿＿＿＿＿＿＿＿＿＿＿＿|
-                  \\ (•◡•) /
-                    \\       /
-                        |_|
-                        |  |  
-                        |_|_ 
+                      \\ (•◡•) /
+                        \\       /
+                            |_|
+                            |  |  
+                            |_|_ 
 `;
 
   return textWithStickman;
