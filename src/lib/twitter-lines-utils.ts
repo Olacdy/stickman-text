@@ -99,18 +99,18 @@ export function putTwitterLinesInStickman(twitterLines: string[]) {
     .map((line) => processTwitterLine(line))
     .join('\n');
 
-  const textWithStickman = `|￣￣￣￣￣￣￣￣￣￣￣￣￣|
+  const textWithStickman = `|￣￣￣￣￣￣￣￣￣￣￣|
 ${
   processedTwitterLines.length > 0
     ? processedTwitterLines
     : processTwitterLine('')
 }
-|＿＿＿＿＿＿＿＿＿＿＿＿＿|
-                     \\ (•◡•) /
-                        \\       /
-                           |_|
-                           |  |  
-                           |_|_ `;
+|＿＿＿＿＿＿＿＿＿＿＿|
+                  \\ (•◡•) /
+                    \\       /
+                        |_|
+                        |  |  
+                        |_|_ `;
 
   return textWithStickman;
 }

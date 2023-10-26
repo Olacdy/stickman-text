@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-export const MAX_WIDTH = 210;
+export const MAX_WIDTH = 179;
 
 const STICKMAN_ID = 'stickman';
 
