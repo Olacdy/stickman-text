@@ -30,11 +30,11 @@ const StickmanText = () => {
   };
 
   return (
-    <section className='flex flex-col items-center w-full max-w-sm gap-5 p-5'>
+    <section className='flex flex-col items-center w-full max-w-sm max-h-screen gap-5 p-5'>
       <pre
         id='stickman'
         onClick={handleTextClick}
-        className='whitespace-pre cursor-pointer select-none font-twitter-chirp'>
+        className='flex-grow overflow-auto whitespace-pre cursor-pointer select-none no-scrollbar font-twitter-chirp'>
         {putTwitterLinesInStickman(twitterLines)}
       </pre>
       <Textarea
