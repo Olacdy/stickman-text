@@ -37,12 +37,12 @@ const StickmanText = () => {
   };
 
   return (
-    <section className='flex max-h-screen w-full max-w-sm flex-col items-center gap-5 p-5'>
+    <section className='flex max-h-screen w-full max-w-sm flex-col items-center gap-5 p-5 pb-10'>
       <HolderTabs holder={holder} setHolder={setHolder} />
       <pre
         id='stickman'
         onClick={handleTextClick}
-        className='no-scrollbar flex-grow cursor-pointer select-none overflow-auto whitespace-pre font-twitter-chirp'>
+        className='no-scrollbar flex min-h-[12rem] flex-grow cursor-pointer select-none flex-col-reverse overflow-auto whitespace-pre font-twitter-chirp'>
         {putTwitterLinesInStickman(twitterLines, holder)}
       </pre>
       <Textarea
