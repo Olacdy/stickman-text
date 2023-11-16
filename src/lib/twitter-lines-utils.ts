@@ -1,5 +1,9 @@
 import { MAX_WIDTH, calculateTextWidth } from '@/lib/utils';
 
+import { getHolder } from '@/helpers/stickmans';
+
+import { HolderType } from '@/types/holder';
+
 export function formTwitterLines(text: string) {
   const twitterLines = [];
   let currentLine = '';
@@ -94,7 +98,10 @@ export function processTwitterLine(twitterLine: string) {
   return `|${leftPadding}${twitterLineWithoutNewLine}${rightPadding}|`;
 }
 
-export function putTwitterLinesInStickman(twitterLines: string[]) {
+export function putTwitterLinesInStickman(
+  twitterLines: string[],
+  holder: HolderType
+) {
   const processedTwitterLines = twitterLines
     .map((line) => processTwitterLine(line))
     .join('\n');
@@ -105,12 +112,7 @@ ${
     ? processedTwitterLines
     : processTwitterLine('')
 }
-|＿＿＿＿＿＿＿＿＿＿＿|
-                  \\ (•◡•) /
-                    \\       /
-                        |_|
-                        |  |  
-                        |_|_ `;
+${getHolder(holder)}`;
 
   return textWithStickman;
 }
